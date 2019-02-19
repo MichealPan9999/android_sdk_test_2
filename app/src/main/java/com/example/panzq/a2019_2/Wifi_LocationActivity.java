@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -17,8 +18,9 @@ import android.widget.TextView;
 
 public class Wifi_LocationActivity extends AppCompatActivity {
 
-    private TextView tv_wifiStatus,tv_gpsStatus;
-    private Button btn_startWifi,btn_startGps,btn_startGame;
+    private TextView tv_wifiStatus, tv_gpsStatus;
+    private Button btn_startWifi, btn_startGps, btn_startGame;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,26 +29,26 @@ public class Wifi_LocationActivity extends AppCompatActivity {
         setListener();
         checkWifiAndGpsStatus();
     }
-    private void findViews()
-    {
+
+    private void findViews() {
         tv_wifiStatus = findViewById(R.id.tv_wifistatus);
         tv_gpsStatus = findViewById(R.id.tv_gpsstatus);
         btn_startWifi = findViewById(R.id.btn_startwifi);
         btn_startGps = findViewById(R.id.btn_startGPS);
         btn_startGame = findViewById(R.id.btn_startGame);
     }
-    private void setListener()
-    {
+
+    private void setListener() {
         btn_startWifi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                if(android.os.Build.VERSION.SDK_INT <= 11){
-                    intent .setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
-                }else{
-                    intent .setClassName("com.android.settings" ,"com.android.settings.wifi.WifiSettings");
+                if (android.os.Build.VERSION.SDK_INT <= 11) {
+                    intent.setClassName("com.android.settings", "com.android.settings.Settings$WifiSettingsActivity");
+                } else {
+                    intent.setClassName("com.android.settings", "com.android.settings.wifi.WifiSettings");
                 }
-                startActivityForResult( intent,0);
+                startActivityForResult(intent, 0);
             }
 
         });
@@ -54,7 +56,7 @@ public class Wifi_LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
             }
         });
         btn_startGame.setOnClickListener(new View.OnClickListener() {
@@ -66,38 +68,34 @@ public class Wifi_LocationActivity extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                showWifiType();
                             }
                         }).show();
             }
         });
     }
-    private void checkWifiAndGpsStatus()
-    {
+
+    private void checkWifiAndGpsStatus() {
         boolean result = true;
-        WifiManager wifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        if (!wifiManager.isWifiEnabled() && wifiManager.getWifiState()!=WifiManager.WIFI_STATE_ENABLING)
-        {
+        if (!wifiManager.isWifiEnabled() && wifiManager.getWifiState() != WifiManager.WIFI_STATE_ENABLING) {
             tv_wifiStatus.setText("未启动");
-            result =false;
-        }else
-        {
+            result = false;
+        } else {
             tv_wifiStatus.setText("已启动");
         }
 
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                || !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
-        {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             tv_gpsStatus.setText("未启动");
             result = false;
-        }else{
+        } else {
             tv_gpsStatus.setText("已启动");
         }
-        if(result)
-        {
+        if (result) {
             btn_startGame.setEnabled(true);
-        }else{
+        } else {
             btn_startGame.setEnabled(false);
         }
     }
@@ -107,4 +105,18 @@ public class Wifi_LocationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         checkWifiAndGpsStatus();
     }
+
+    private void showWifiType() {
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null) {
+            tv_wifiStatus.setText("null");
+        } else {
+            if (cm.getActiveNetworkInfo().isAvailable()) {
+                tv_wifiStatus.setText(":" + cm.getActiveNetworkInfo().getTypeName());
+            } else {
+                tv_wifiStatus.setText("null");
+            }
+        }
+    }
+
 }

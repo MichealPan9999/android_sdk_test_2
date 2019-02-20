@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_set_wifigps"
+        android:id="@+id/btn_startDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="设置wifi跟GPS" />
+        android:text="启动" />
     <Button
-        android:id="@+id/btn_set_saveDevice"
+        android:id="@+id/btn_setDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="手机安全设备管理器" />
+        android:text="设置" />
+    <Button
+        android:id="@+id/btn_stopDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="停止" />
 </LinearLayout>

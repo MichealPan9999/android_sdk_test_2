@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn_set_wifigps;
+    private Button btn_set_wifigps,btn_set_saveDevice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private void findViews()
     {
         btn_set_wifigps = findViewById(R.id.btn_set_wifigps);
+        btn_set_saveDevice = findViewById(R.id.btn_set_saveDevice);
     }
     private void setListener()
     {
@@ -34,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,Wifi_LocationActivity.class);
+                startActivityForResult(intent,0);
+            }
+
+        });
+        btn_set_saveDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,SaveDeviceActivity.class);
                 startActivityForResult(intent,0);
             }
 

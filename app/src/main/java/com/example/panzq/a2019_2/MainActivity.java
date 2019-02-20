@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn_set_wifigps,btn_set_saveDevice;
+    private Button btn_set_wifigps,btn_set_saveDevice,btn_adb_shell;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     {
         btn_set_wifigps = findViewById(R.id.btn_set_wifigps);
         btn_set_saveDevice = findViewById(R.id.btn_set_saveDevice);
+        btn_adb_shell = findViewById(R.id.btn_adb_shell);
     }
     private void setListener()
     {
@@ -44,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,SaveDeviceActivity.class);
                 startActivityForResult(intent,0);
+            }
+
+        });
+        btn_adb_shell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,ADBShellActivity.class);
+                startActivity(intent);
             }
 
         });

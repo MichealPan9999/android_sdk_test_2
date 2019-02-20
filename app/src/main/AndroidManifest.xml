@@ -37,7 +37,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".DeviceSettingActivity"></activity>
+        <activity android:name=".DeviceSettingActivity" />
+        <activity android:name=".ADBShellActivity"></activity>
     </application>
 
 </manifest>
